@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-service
+  template:
+    metadata:
+      labels:
+        app: todo-service
+    spec:
+      containers:
+      - name: todo-service
+        image: service-image
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5000
+        command:
+          - npm
+        args:
+          - run
+          - start
+        resources:
+          limits:
+            cpu: 500m
+            memory: 2048Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 30
+        envFrom:
+        - configMapRef:
+            name: todo-service-settings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-service
+  annotations:
+    cloud.google.com/load-balancer-type: Internal
+spec:
+  selector:
+    app: todo-service
+  ports:
+    - port: 80
+      targetPort: 5000
+  type: LoadBalancer

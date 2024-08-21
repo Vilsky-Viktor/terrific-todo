@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+
+  todo-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run start
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - SERVICE_NAME=todo-service
+      - SERVICE_PORT=5000
+      - LOG_LEVEL=info
+      - MONGO_URI=mongodb://mongodb:27017/todos
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  integration-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run integration-tests
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      todo-service:
+        condition: service_healthy
+    environment:
+      - SERVICE_URL=http://todo-service:5000
+      - MONGO_URI=mongodb://mongodb:27017/todos
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: integration-tests
+  annotations:
+    kapp.k14s.io/change-rule: "upsert after upserting apps.terrific.com/test-services"
+spec:
+  containers:
+    - name: integration-tests
+      image: todo-integration-tests:latest
+      imagePullPolicy: Never
+      command:
+        - npm
+      args:
+        - run
+        - intergation-tests
+      resources:
+        requests:
+          cpu: 100m
+          memory: 400Mi
+      env:
+        - name: SERVICE_URL
+          value: "http://todo-service"
+        - name: MONGO_URI
+          value: "mongodb://mongodb:27017"
+  restartPolicy: Never

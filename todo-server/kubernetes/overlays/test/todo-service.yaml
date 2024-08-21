@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service
+  annotations:
+    kapp.k14s.io/change-group: "apps.terrific.com/test-services"
+spec:
+  replicas: 1

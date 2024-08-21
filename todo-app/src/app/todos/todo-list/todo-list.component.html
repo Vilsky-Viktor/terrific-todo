@@ -1,0 +1,18 @@
+<mat-grid-list [cols]="gridCols" *ngIf="todos.length" cols="3" rowHeight="210px">
+    <mat-grid-tile *ngFor="let todo of todos">
+        <app-todo-item
+            [todo]="todo"
+            (edit)="openEditDialog(todo)"
+            (delete)="openDeleteDialog(todo)"
+            (toggle)="toggleTodoStatus(todo)"
+        ></app-todo-item>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<div *ngIf="!todos.length" class="no-tasks-message">
+    Add your first task using add button down below
+</div>
+
+<button mat-fab class="add-todo-button" (click)="openEditDialog()">
+    <mat-icon>add</mat-icon>
+</button>
