@@ -1,4 +1,4 @@
 export const AppSettings = {
     production: false,
-    apiUrl: 'http://todo-service:5000/api/todos',
+    apiUrl: 'http://localhost:5100/api/todos',
 };

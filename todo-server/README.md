@@ -31,7 +31,7 @@ cd path/to/projects/terrific-todo/todo-server
 docker-compose up -d
 ```
 Docker compose brings up the service along with mongodb instance. 
-The service will be available on http://localhost:5000
+The service will be available on http://localhost:5100
 MongoDB will be available on mongodb://localhost:27017/todos
 
 ## Kubernetes

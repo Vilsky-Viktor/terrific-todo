@@ -17,7 +17,7 @@ FROM nginx:alpine
 
 COPY --from=build /app/dist/todo-app/browser /usr/share/nginx/html
 
-RUN sed -i 's/listen       80;/listen       3000;/' /etc/nginx/conf.d/default.conf
+RUN sed -i 's/listen       80;/listen       3100;/' /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

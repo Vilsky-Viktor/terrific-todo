@@ -16,20 +16,20 @@ services:
       dockerfile: Dockerfile
     command: npm run start
     ports:
-      - "5000:5000"
+      - "5100:5100"
     depends_on:
       mongodb:
         condition: service_healthy
     environment:
       - SERVICE_NAME=todo-service
-      - SERVICE_PORT=5000
+      - SERVICE_PORT=5100
       - LOG_LEVEL=info
       - MONGO_URI=mongodb://mongodb:27017/todos
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:5100/health"]
       interval: 10s
       retries: 5
       start_period: 30s
@@ -46,7 +46,7 @@ services:
       todo-service:
         condition: service_healthy
     environment:
-      - SERVICE_URL=http://todo-service:5000
+      - SERVICE_URL=http://todo-service:5100
       - MONGO_URI=mongodb://mongodb:27017/todos
 
 volumes:

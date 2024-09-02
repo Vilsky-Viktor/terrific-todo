@@ -22,7 +22,7 @@ docker-compose up -d
 ```
 
 After all the services and dependencies are up navigate to:
-http://localhost:3000
+http://localhost:3100
 
 If you would like to send direct requests to backend:
-http://localhost:5000/api/todo
+http://localhost:5100/api/todo

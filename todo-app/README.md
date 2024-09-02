@@ -14,14 +14,14 @@ There are 4 environments configured:
 
 ## How to run
 In order to run application locally you need ng to be installed on your local machine.
-Also backend should be running on localhost port 5000 (you can start it via docker-compose in todo-server folder)
+Also backend should be running on localhost port 5100 (you can start it via docker-compose in todo-server folder)
 
 ```
 cd path/to/projects/terrific-todo/todo-app
 docker build --build-arg EVIRONMENT=local -t your-angular-app .
-docker run -p 3000:3000 todo-app
+docker run -p 3100:3100 todo-app
 ```
-Once the docker container is running the app will be available on http://localhost:3000
+Once the docker container is running the app will be available on http://localhost:3100
 
 ## Kubernetes
 There are two environments configured for k8s deployment: development and production.
